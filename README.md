@@ -17,8 +17,8 @@
 Запрос без жанра:
 http://localhost:3000/api.php?action=top-authors&from_date=2024-01-01&to_date=2024-12-31&limit=5
 
-Запрос с жанром (например, Fiction)
-http://localhost:3000/api.php?action=top-authors&from_date=2024-01-01&to_date=2024-12-31&genre=Fiction&limit=5
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 запрос номер 2: книги с самыми крупными чеками за период (по самой большой сумме одной продажи)
@@ -36,6 +36,5 @@ http://localhost:3000/api.php?action=top-authors&from_date=2024-01-01&to_date=20
 Запрос без жанра:
 http://localhost:3000/api.php?action=top-books&from_date=2024-01-01&to_date=2024-12-31&limit=5
 
-Запрос с жанром (например, Science)
-http://localhost:3000/api.php?action=top-books&from_date=2024-01-01&to_date=2024-12-31&genre=Science&limit=5
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
