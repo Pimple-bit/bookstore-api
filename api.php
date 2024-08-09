@@ -76,7 +76,7 @@ if (isset($_GET['action'])) {
             $query .= " AND g.name = :genre";
         }
 
-        $query .= " GROUP BY b.id, s.sale_date ORDER BY s.quantity DESC, s.sale_date DESC LIMIT $limit";
+        $query .= " GROUP BY b.id, s.sale_date ORDER BY total_amount DESC, s.sale_date DESC LIMIT $limit";
 
         $params = [
             ':from_date' => $from_date,
