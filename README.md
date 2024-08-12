@@ -16,6 +16,9 @@
  Самые популярные авторы за период
 Запрос без жанра:
 http://localhost:3000/api.php?action=top-authors&from_date=2024-01-01&to_date=2024-12-31&limit=5
+с
+http://localhost:3000/?action=top-authors&from_date=2024-07-01&to_date=2024-07-31&genre=History&limit=5
+
 
 
 
@@ -35,6 +38,8 @@ http://localhost:3000/api.php?action=top-authors&from_date=2024-01-01&to_date=20
  Книги с самыми крупными чеками
 Запрос без жанра:
 http://localhost:3000/api.php?action=top-books&from_date=2024-01-01&to_date=2024-12-31&limit=5
+с
+http://localhost:3000/?action=top-books&from_date=2024-07-01&to_date=2024-07-31&genre=History&limit=5
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
