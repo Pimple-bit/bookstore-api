@@ -42,13 +42,11 @@ if (isset($_GET['action'])) {
             LEFT JOIN sales s ON b.id = s.book_id AND s.sale_date BETWEEN :from_date AND :to_date
             LEFT JOIN book_genre bg ON b.id = bg.book_id
             LEFT JOIN genres g ON bg.genre_id = g.id
+            WHERE (:genre IS NULL OR g.name = :genre)
+            GROUP BY a.id
+            ORDER BY total_sales DESC
+            LIMIT :limit
         ";
-
-        if ($genre) {
-            $query .= " AND g.name = :genre";
-        }
-
-        $query .= " GROUP BY a.id ORDER BY total_sales DESC LIMIT :limit";
 
         $params = [
             ':from_date' => $from_date,
@@ -57,6 +55,8 @@ if (isset($_GET['action'])) {
         ];
         if ($genre) {
             $params[':genre'] = $genre;
+        } else {
+            $params[':genre'] = null;
         }
 
         $result = executeQuery($pdo, $query, $params);
@@ -139,4 +139,3 @@ LIMIT :limit;
     echo json_encode(['error' => 'Invalid action']);
 }
 ?>
-
