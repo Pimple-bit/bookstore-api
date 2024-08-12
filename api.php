@@ -110,7 +110,13 @@ WHERE
             AND s4.sale_date BETWEEN :from_date AND :to_date
     )
     AND s.sale_date BETWEEN :from_date AND :to_date
-GROUP BY
+";
+
+        if ($genre) {
+            $query .= " AND g.name = :genre";
+        }
+
+        $query .= " GROUP BY
     b.id
 ORDER BY
     total_amount DESC
@@ -122,6 +128,9 @@ LIMIT :limit;
             ':to_date' => $to_date,
             ':limit' => $limit
         ];
+        if ($genre) {
+            $params[':genre'] = $genre;
+        }
 
         $result = executeQuery($pdo, $query, $params);
         echo json_encode($result);
@@ -130,3 +139,4 @@ LIMIT :limit;
     echo json_encode(['error' => 'Invalid action']);
 }
 ?>
+
