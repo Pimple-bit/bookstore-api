@@ -60,7 +60,7 @@ if (isset($_GET['action'])) {
 
     } elseif ($_GET['action'] === 'top-books') {
         $query = "
-            SELECT b.title, b.publication_year, s.sale_date, s.quantity AS total_amount,
+            SELECT b.title, b.publication_year, MAX(s.sale_date) AS sale_date, MAX(s.quantity) AS total_amount,
                    GROUP_CONCAT(DISTINCT g.name) AS genres, 
                    GROUP_CONCAT(DISTINCT a.name) AS authors
             FROM sales s
@@ -76,7 +76,7 @@ if (isset($_GET['action'])) {
             $query .= " AND g.name = :genre";
         }
 
-        $query .= " GROUP BY b.id, s.sale_date ORDER BY total_amount DESC, s.sale_date DESC LIMIT $limit";
+        $query .= " GROUP BY b.id ORDER BY total_amount DESC, sale_date DESC LIMIT $limit";
 
         $params = [
             ':from_date' => $from_date,
