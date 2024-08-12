@@ -17,7 +17,11 @@ try {
 function executeQuery($pdo, $query, $params) {
     $stmt = $pdo->prepare($query);
     foreach ($params as $key => $value) {
-        $stmt->bindValue($key, $value);
+        if (is_int($value)) {
+            $stmt->bindValue($key, $value, PDO::PARAM_INT);
+        } else {
+            $stmt->bindValue($key, $value);
+        }
     }
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,11 +49,12 @@ if (isset($_GET['action'])) {
             $query .= " AND g.name = :genre";
         }
 
-        $query .= " GROUP BY a.id ORDER BY total_sales DESC LIMIT $limit";
+        $query .= " GROUP BY a.id ORDER BY total_sales DESC LIMIT :limit";
 
         $params = [
             ':from_date' => $from_date,
             ':to_date' => $to_date,
+            ':limit' => $limit
         ];
         if ($genre) {
             $params[':genre'] = $genre;
@@ -60,7 +65,7 @@ if (isset($_GET['action'])) {
 
     } elseif ($_GET['action'] === 'top-books') {
         $query = "
-            SELECT b.title, b.publication_year, MAX(s.sale_date) AS sale_date, MAX(s.quantity) AS total_amount,
+            SELECT b.title, b.publication_year, s.sale_date, s.quantity AS total_amount,
                    GROUP_CONCAT(DISTINCT g.name) AS genres, 
                    GROUP_CONCAT(DISTINCT a.name) AS authors
             FROM sales s
@@ -76,11 +81,12 @@ if (isset($_GET['action'])) {
             $query .= " AND g.name = :genre";
         }
 
-        $query .= " GROUP BY b.id ORDER BY total_amount DESC, sale_date DESC LIMIT $limit";
+        $query .= " GROUP BY b.id ORDER BY MAX(s.quantity) DESC, MAX(s.sale_date) DESC LIMIT :limit";
 
         $params = [
             ':from_date' => $from_date,
             ':to_date' => $to_date,
+            ':limit' => $limit
         ];
         if ($genre) {
             $params[':genre'] = $genre;
@@ -92,3 +98,5 @@ if (isset($_GET['action'])) {
 } else {
     echo json_encode(['error' => 'Invalid action']);
 }
+?>
+
